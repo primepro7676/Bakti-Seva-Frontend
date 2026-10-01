@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #FFFDF7;
+  --foreground: #342B27;
+  --card: #FFFDF7;
+  --card-foreground: #342B27;
+  --popover: #FFFDF7;
+  --popover-foreground: #342B27;
+  --primary: #641E2E;
+  --primary-foreground: #FFFDF7;
+  --secondary: #F8F1E5;
+  --secondary-foreground: #641E2E;
+  --muted: #EEE3D0;
+  --muted-foreground: #49332D;
+  --accent: #C59A4B;
+  --accent-foreground: #FFFDF7;
+  --destructive: #7B233A;
+  --destructive-foreground: #FFFDF7;
+  --border: #EEE3D0;
+  --input: #EEE3D0;
+  --ring: #C59A4B;
+  --radius: 0.625rem;
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+}
+
+.dark {
+  --background: #342B27;
+  --foreground: #FFFDF7;
+  --card: #49332D;
+  --card-foreground: #FFFDF7;
+  --popover: #49332D;
+  --popover-foreground: #FFFDF7;
+  --primary: #D6B46A;
+  --primary-foreground: #342B27;
+  --secondary: #641E2E;
+  --secondary-foreground: #FFFDF7;
+  --muted: #49332D;
+  --muted-foreground: #D6B46A;
+  --accent: #D6B46A;
+  --accent-foreground: #342B27;
+  --destructive: #7B233A;
+  --destructive-foreground: #FFFDF7;
+  --border: #641E2E;
+  --input: #641E2E;
+  --ring: #D6B46A;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    outline-color: color-mix(in srgb, var(--ring) 50%, transparent);
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased selection:bg-burgundy selection:text-ivory;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading tracking-tight;
+  }
+}
+
+/* ── Scrollbar Utilities ── */
+.hide-scrollbar::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar,
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ── Editorial hover effect ── */
+.editorial-card-hover {
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.editorial-card-hover:hover {
+  transform: scale(1.03);
+}
+
+/* ── Gold shimmer animation for accent elements ── */
+@keyframes gold-shimmer {
+  0% {
+    background-position: -200% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.gold-shimmer {
+  background: linear-gradient(90deg, #C59A4B, #D6B46A, #C59A4B);
+  background-size: 200% auto;
+  animation: gold-shimmer 3s linear infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Divider accent ── */
+.brand-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #C59A4B;
+}
+
+.brand-divider::before,
+.brand-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.3;
+}
