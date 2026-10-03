@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { fetchProducts } from "@/lib/backend-api";
+=======
+import { prisma as db } from "@/lib/prisma";
+>>>>>>> f1a1a28b27fc11481b919ecfcb09db8e2a7fd56e
 import { formatCurrency } from "@/lib/utils";
 import { Plus } from "lucide-react";
 import Link from "next/link";
@@ -9,12 +13,25 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default async function AdminProductsPage() {
+<<<<<<< HEAD
   let products: Awaited<ReturnType<typeof fetchProducts>> = [];
   try {
     products = await fetchProducts({ sort: "newest" });
   } catch (error) {
     console.warn("Could not load products from backend:", error);
   }
+=======
+  const products = db?.product
+    ? await db.product.findMany({
+        include: {
+          category: true,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      })
+    : [];
+>>>>>>> f1a1a28b27fc11481b919ecfcb09db8e2a7fd56e
 
   return (
     <div className="space-y-8">

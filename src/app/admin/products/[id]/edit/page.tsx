@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import { prisma as db } from "@/lib/prisma";
+>>>>>>> f1a1a28b27fc11481b919ecfcb09db8e2a7fd56e
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Save } from "lucide-react";
@@ -10,6 +14,7 @@ export default async function EditProductPage({
 }: {
   params: { id: string };
 }) {
+<<<<<<< HEAD
   let product: Awaited<ReturnType<typeof fetchProducts>>[number] | undefined;
 
   try {
@@ -18,6 +23,16 @@ export default async function EditProductPage({
   } catch {
     notFound();
   }
+=======
+  if (!db?.product) {
+    notFound();
+  }
+
+  const product = await db.product.findUnique({
+    where: { id: params.id },
+    include: { category: true },
+  });
+>>>>>>> f1a1a28b27fc11481b919ecfcb09db8e2a7fd56e
 
   if (!product) {
     notFound();
