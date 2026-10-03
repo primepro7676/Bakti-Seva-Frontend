@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { fetchAdminStats } from "@/lib/backend-api";
-=======
-import { prisma as db } from "@/lib/prisma";
->>>>>>> f1a1a28b27fc11481b919ecfcb09db8e2a7fd56e
 import { formatCurrency } from "@/lib/utils";
 import { 
   Package, 
@@ -17,7 +13,6 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default async function AdminDashboardPage() {
-<<<<<<< HEAD
   let productsCount = 0;
   let usersCount = 0;
   let ordersCount = 0;
@@ -29,33 +24,6 @@ export default async function AdminDashboardPage() {
     user: { name: string | null; email: string | null } | null;
   }> = [];
   let totalRevenue = 0;
-=======
-  if (!db?.product || !db?.user || !db?.order) {
-    return (
-      <div className="p-8 text-near-black/60">
-        Database is not configured. Set DATABASE_URL and redeploy.
-      </div>
-    );
-  }
-
-  const [
-    productsCount,
-    usersCount,
-    ordersCount,
-    recentOrders
-  ] = await Promise.all([
-    db.product.count(),
-    db.user.count(),
-    db.order.count(),
-    db.order.findMany({
-      take: 5,
-      orderBy: { createdAt: "desc" },
-      include: {
-        user: true,
-      },
-    }),
-  ]);
->>>>>>> f1a1a28b27fc11481b919ecfcb09db8e2a7fd56e
 
   try {
     const stats = await fetchAdminStats();

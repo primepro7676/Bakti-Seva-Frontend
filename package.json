@@ -4,11 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --webpack",
-<<<<<<< HEAD
-    "build": "next build --webpack",
-=======
     "build": "npx prisma generate && next build --webpack",
->>>>>>> f1a1a28b27fc11481b919ecfcb09db8e2a7fd56e
     "start": "next start",
     "lint": "eslint"
   },

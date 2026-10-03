@@ -80,28 +80,32 @@ async function retrieveProducts(query: string): Promise<{
   }[] = [];
 
   try {
-    dbItems = await prisma.product.findMany({
-      take: 5,
-      orderBy: { updatedAt: "desc" },
-      where: words.length
-        ? {
-            OR: words.flatMap((w) => [
-              { name: { contains: w, mode: "insensitive" as const } },
-              { description: { contains: w, mode: "insensitive" as const } },
-              { category: { name: { contains: w, mode: "insensitive" as const } } },
-            ]),
-          }
-        : undefined,
-      select: {
-        name: true,
-        slug: true,
-        price: true,
-        description: true,
-        imageUrl: true,
-        stock: true,
-        category: { select: { name: true, slug: true } },
-      },
-    });
+    if (!prisma?.product) {
+      dbItems = [];
+    } else {
+      dbItems = await prisma.product.findMany({
+        take: 5,
+        orderBy: { updatedAt: "desc" },
+        where: words.length
+          ? {
+              OR: words.flatMap((w) => [
+                { name: { contains: w, mode: "insensitive" as const } },
+                { description: { contains: w, mode: "insensitive" as const } },
+                { category: { name: { contains: w, mode: "insensitive" as const } } },
+              ]),
+            }
+          : undefined,
+        select: {
+          name: true,
+          slug: true,
+          price: true,
+          description: true,
+          imageUrl: true,
+          stock: true,
+          category: { select: { name: true, slug: true } },
+        },
+      });
+    }
   } catch {
     dbItems = [];
   }
@@ -177,6 +181,7 @@ function retrieveOfferings(query: string, type?: "online-pooja" | "homa" | "seva
 
 async function retrieveDbSevas(): Promise<string> {
   try {
+    if (!prisma?.seva) return "";
     const sevas = await prisma.seva.findMany({
       where: { isActive: true },
       take: 8,
