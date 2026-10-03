@@ -1,12 +1,22 @@
-import { prisma as db } from "@/lib/db";
+import { prisma as db } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Save } from "lucide-react";
 
-export default async function EditProductPage({ params }: { params: { id: string } }) {
+export const dynamic = "force-dynamic";
+
+export default async function EditProductPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  if (!db?.product) {
+    notFound();
+  }
+
   const product = await db.product.findUnique({
     where: { id: params.id },
-    include: { category: true }
+    include: { category: true },
   });
 
   if (!product) {
