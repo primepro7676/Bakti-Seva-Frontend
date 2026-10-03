@@ -1,4 +1,4 @@
-import { prisma as db } from "@/lib/db";
+import { prisma as db } from "@/lib/prisma";
 import { formatCurrency } from "@/lib/utils";
 import { 
   Package, 
@@ -11,9 +11,18 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default async function AdminDashboardPage() {
+  if (!db?.product || !db?.user || !db?.order) {
+    return (
+      <div className="p-8 text-near-black/60">
+        Database is not configured. Set DATABASE_URL and redeploy.
+      </div>
+    );
+  }
+
   const [
     productsCount,
     usersCount,
