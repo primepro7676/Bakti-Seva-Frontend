@@ -1,21 +1,24 @@
-import { prisma as db } from "@/lib/db";
+import { prisma as db } from "@/lib/prisma";
 import { formatCurrency } from "@/lib/utils";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { ProductRowActions } from "@/components/admin/ProductRowActions";
 
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default async function AdminProductsPage() {
-  const products = await db.product.findMany({
-    include: {
-      category: true,
-    },
-    orderBy: {
-      createdAt: 'desc',
-    }
-  });
+  const products = db?.product
+    ? await db.product.findMany({
+        include: {
+          category: true,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      })
+    : [];
 
   return (
     <div className="space-y-8">
