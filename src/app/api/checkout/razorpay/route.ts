@@ -1,12 +1,19 @@
 import { NextResponse } from "next/server";
 import Razorpay from "razorpay";
 
-// Initialize razorpay
-// using fallback dummy keys for dev if env is missing
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID || "rzp_test_dummy_key",
-  key_secret: process.env.RAZORPAY_KEY_SECRET || "dummy_secret_key",
-});
+function getRazorpay() {
+  const key_id =
+    process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+  const key_secret = process.env.RAZORPAY_KEY_SECRET;
+
+  if (!key_id || !key_secret) {
+    throw new Error(
+      "Missing Razorpay credentials. Set RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET."
+    );
+  }
+
+  return new Razorpay({ key_id, key_secret });
+}
 
 export async function POST(req: Request) {
   try {
@@ -20,16 +27,13 @@ export async function POST(req: Request) {
     // Razorpay expects amount in smallest subunit (e.g. paise)
     const amountInPaise = Math.round(amount * 100);
 
-    const options = {
+    const razorpay = getRazorpay();
+    const order = await razorpay.orders.create({
       amount: amountInPaise,
       currency: "INR",
       receipt: `receipt_${Date.now()}`,
-    };
+    });
 
-    const order = await razorpay.orders.create(options);
-
-    // Save initial order status in database if needed
-    // For now we just return the order details to the client to initialize payment
     return NextResponse.json({
       id: order.id,
       currency: order.currency,

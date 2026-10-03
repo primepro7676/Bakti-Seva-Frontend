@@ -1,44 +1,40 @@
-import { prisma as db } from "@/lib/db";
+import { fetchAdminStats } from "@/lib/backend-api";
 import { formatCurrency } from "@/lib/utils";
 import { 
   Package, 
   ShoppingCart, 
   Users, 
-  Activity,
   IndianRupee,
   ArrowUpRight,
-  TrendingUp
 } from "lucide-react";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default async function AdminDashboardPage() {
-  const [
-    productsCount,
-    usersCount,
-    ordersCount,
-    recentOrders
-  ] = await Promise.all([
-    db.product.count(),
-    db.user.count(),
-    db.order.count(),
-    db.order.findMany({
-      take: 5,
-      orderBy: { createdAt: "desc" },
-      include: {
-        user: true,
-      },
-    }),
-  ]);
+  let productsCount = 0;
+  let usersCount = 0;
+  let ordersCount = 0;
+  let recentOrders: Array<{
+    id: string;
+    totalAmount: number;
+    status: string;
+    createdAt: string;
+    user: { name: string | null; email: string | null } | null;
+  }> = [];
+  let totalRevenue = 0;
 
-  const totalRevenueResult = await db.order.aggregate({
-    _sum: {
-      totalAmount: true,
-    },
-  });
-  
-  const totalRevenue = totalRevenueResult._sum.totalAmount || 0;
+  try {
+    const stats = await fetchAdminStats();
+    productsCount = stats.productsCount;
+    usersCount = stats.usersCount;
+    ordersCount = stats.ordersCount;
+    recentOrders = stats.recentOrders;
+    totalRevenue = stats.totalRevenue;
+  } catch (error) {
+    console.warn("Admin stats unavailable from backend:", error);
+  }
 
   return (
     <div className="space-y-8">
@@ -50,7 +46,6 @@ export default async function AdminDashboardPage() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {/* Total Revenue Stat Card */}
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-near-black/5 relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-110"></div>
           <div className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
@@ -67,7 +62,6 @@ export default async function AdminDashboardPage() {
           </div>
         </div>
 
-        {/* Sales Stat Card */}
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-near-black/5 relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-110"></div>
           <div className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
@@ -84,7 +78,6 @@ export default async function AdminDashboardPage() {
           </div>
         </div>
         
-        {/* Active Users Stat Card */}
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-near-black/5 relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-110"></div>
           <div className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
@@ -101,7 +94,6 @@ export default async function AdminDashboardPage() {
           </div>
         </div>
 
-        {/* Products Stat Card */}
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-near-black/5 relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-110"></div>
           <div className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
@@ -132,7 +124,7 @@ export default async function AdminDashboardPage() {
               {recentOrders.length === 0 ? (
                 <div className="p-12 text-center text-near-black/50 font-light">No recent orders found.</div>
               ) : (
-                recentOrders.map((order: any) => (
+                recentOrders.map((order) => (
                   <div key={order.id} className="flex items-center justify-between p-6 hover:bg-sand/5 transition-colors">
                     <div className="flex items-center gap-4">
                       <div className="w-10 h-10 rounded-full bg-sand/20 flex items-center justify-center text-charcoal font-bold border border-near-black/5">
@@ -147,7 +139,7 @@ export default async function AdminDashboardPage() {
                       <p className="font-bold text-charcoal">{formatCurrency(order.totalAmount)}</p>
                       <div className="mt-1">
                         <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest ${
-                          order.status === "COMPLETED" ? "bg-green-100 text-green-700 border border-green-200" :
+                          order.status === "COMPLETED" || order.status === "DELIVERED" ? "bg-green-100 text-green-700 border border-green-200" :
                           order.status === "PENDING" ? "bg-amber-100 text-amber-700 border border-amber-200" :
                           "bg-red-100 text-red-700 border border-red-200"
                         }`}>
@@ -162,7 +154,6 @@ export default async function AdminDashboardPage() {
           </div>
         </div>
 
-        {/* Quick Actions */}
         <div className="bg-gradient-to-br from-near-black to-charcoal p-8 rounded-2xl shadow-lg relative overflow-hidden border border-near-black flex flex-col justify-between">
           <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
           <div className="absolute -top-24 -right-24 w-64 h-64 bg-accent/20 rounded-full blur-3xl pointer-events-none"></div>
@@ -170,7 +161,7 @@ export default async function AdminDashboardPage() {
           <div className="relative z-10">
             <h2 className="text-2xl font-bold font-heading mb-2 text-ivory">Welcome back, Admin</h2>
             <p className="text-ivory/70 text-sm mb-8 leading-relaxed">
-              Manage your inventory, track orders, and monitor your store's performance from your control center. Everything is running smoothly today.
+              Manage your inventory, track orders, and monitor your store&apos;s performance from your control center.
             </p>
           </div>
           

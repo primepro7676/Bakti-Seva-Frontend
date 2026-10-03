@@ -1,8 +1,10 @@
-import { prisma } from "@/lib/db";
+import { fetchProductBySlug } from "@/lib/backend-api";
 import { notFound } from "next/navigation";
 import { ProductClientDisplay } from "./ProductClientDisplay";
 
 const VEDIC_SLUG = "vedic-scriptures-illustrated";
+
+export const dynamic = "force-dynamic";
 
 export default async function ProductDetail({
   params,
@@ -11,26 +13,19 @@ export default async function ProductDetail({
 }) {
   const resolvedParams = await params;
 
-  const product = await prisma.product.findUnique({
-    where: { slug: resolvedParams.slug },
-    include: {
-      category: true,
-      images: { orderBy: { isPrimary: "desc" } },
-    },
-  });
-
-  if (!product) {
+  let product;
+  let relatedProducts;
+  try {
+    const data = await fetchProductBySlug(resolvedParams.slug);
+    product = data.product;
+    relatedProducts = data.related;
+  } catch {
     notFound();
   }
 
-  const relatedProducts = await prisma.product.findMany({
-    where: {
-      categoryId: product.categoryId,
-      NOT: { id: product.id },
-    },
-    take: 4,
-    include: { category: true },
-  });
+  if (!product?.category) {
+    notFound();
+  }
 
   const isVedic = product.slug === VEDIC_SLUG;
   const primaryImage =
@@ -44,7 +39,9 @@ export default async function ProductDetail({
       ]
     : [
         primaryImage,
-        ...product.images.map((img) => img.url).filter((url) => url !== primaryImage),
+        ...(product.images || [])
+          .map((img) => img.url)
+          .filter((url) => url !== primaryImage),
       ].slice(0, 4);
 
   const formattedProduct = {

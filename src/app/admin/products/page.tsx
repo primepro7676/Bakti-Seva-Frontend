@@ -1,21 +1,20 @@
-import { prisma as db } from "@/lib/db";
+import { fetchProducts } from "@/lib/backend-api";
 import { formatCurrency } from "@/lib/utils";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { ProductRowActions } from "@/components/admin/ProductRowActions";
 
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default async function AdminProductsPage() {
-  const products = await db.product.findMany({
-    include: {
-      category: true,
-    },
-    orderBy: {
-      createdAt: 'desc',
-    }
-  });
+  let products: Awaited<ReturnType<typeof fetchProducts>> = [];
+  try {
+    products = await fetchProducts({ sort: "newest" });
+  } catch (error) {
+    console.warn("Could not load products from backend:", error);
+  }
 
   return (
     <div className="space-y-8">
@@ -49,14 +48,14 @@ export default async function AdminProductsPage() {
                   </td>
                 </tr>
               ) : (
-                products.map((product: any) => (
+                products.map((product) => (
                   <tr key={product.id} className="hover:bg-sand/5 transition-colors group">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-4">
                         <div className="w-12 h-12 rounded-lg bg-sand/20 overflow-hidden flex-shrink-0 relative border border-near-black/5 group-hover:border-near-black/10 transition-colors">
                           {product.imageUrl && (
-                            <Image 
-                              src={product.imageUrl} 
+                            <Image
+                              src={product.imageUrl}
                               alt={product.name}
                               fill
                               sizes="48px"
@@ -66,20 +65,26 @@ export default async function AdminProductsPage() {
                         </div>
                         <div>
                           <div className="font-semibold text-charcoal">{product.name}</div>
-                          <div className="text-[11px] text-near-black/50 mt-0.5 max-w-[250px] truncate">{product.description}</div>
+                          <div className="text-[11px] text-near-black/50 mt-0.5 max-w-[250px] truncate">
+                            {product.description}
+                          </div>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4">
                       <span className="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-accent/10 text-accent border border-accent/20">
-                        {product.category.name}
+                        {product.category?.name || "Uncategorized"}
                       </span>
                     </td>
                     <td className="px-6 py-4 font-semibold text-charcoal">
                       {formatCurrency(product.price)}
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`text-xs font-medium ${product.stock > 10 ? "text-green-600" : "text-amber-600"}`}>
+                      <span
+                        className={`text-xs font-medium ${
+                          product.stock > 10 ? "text-green-600" : "text-amber-600"
+                        }`}
+                      >
                         {product.stock} units
                       </span>
                     </td>

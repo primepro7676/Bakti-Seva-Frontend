@@ -1,8 +1,10 @@
 import { notFound } from "next/navigation";
-import { getOfferingBySlug, SACRED_OFFERINGS, SacredOffering } from "@/lib/data/offerings";
-import { prisma } from "@/lib/db";
+import { getOfferingBySlug, SacredOffering } from "@/lib/data/offerings";
+import { fetchSevaBySlug } from "@/lib/backend-api";
 import { SevaBookingClient } from "@/components/seva/SevaBookingClient";
 import { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(props: {
   params: Promise<{ slug: string }>;
@@ -32,14 +34,10 @@ export default async function SevaDetailPage(props: {
 }) {
   const { slug } = await props.params;
 
-  // 1. Look up in predefined sacred offerings
   let offering: SacredOffering | undefined = getOfferingBySlug(slug);
 
-  // 2. If not found or if there is dynamic DB stats, attempt DB query
   try {
-    const dbSeva = await prisma.seva.findUnique({
-      where: { slug },
-    });
+    const dbSeva = await fetchSevaBySlug(slug);
 
     if (dbSeva) {
       if (offering) {
@@ -49,7 +47,6 @@ export default async function SevaDetailPage(props: {
           goalAmount: dbSeva.goalAmount || offering.goalAmount,
         };
       } else {
-        // Construct offering object from DB
         offering = {
           id: dbSeva.id,
           slug: dbSeva.slug,
@@ -72,15 +69,27 @@ export default async function SevaDetailPage(props: {
             "Tax-exemption receipt and periodic newsletter",
           ],
           packages: [
-            { name: "Supporter", amount: 501, description: "Provides essential supplies for community seva." },
-            { name: "Patron", amount: 2100, description: "Substantial contribution for family blessings." },
-            { name: "Maha Seva", amount: 5100, description: "Day-long sponsorship in your family's name." },
+            {
+              name: "Supporter",
+              amount: 501,
+              description: "Provides essential supplies for community seva.",
+            },
+            {
+              name: "Patron",
+              amount: 2100,
+              description: "Substantial contribution for family blessings.",
+            },
+            {
+              name: "Maha Seva",
+              amount: 5100,
+              description: "Day-long sponsorship in your family's name.",
+            },
           ],
         };
       }
     }
   } catch (error) {
-    console.warn("Could not query DB for seva slug, using static data:", error);
+    console.warn("Could not load seva from backend, using static data:", error);
   }
 
   if (!offering) {

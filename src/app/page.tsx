@@ -1,12 +1,12 @@
-import Link from "next/link";
-import Image from "next/image";
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { prisma } from "@/lib/db";
+import { fetchProducts } from "@/lib/backend-api";
 import { SectionHeader } from "@/components/ui/section-header";
 import { TrustBar } from "@/components/layout/TrustBar";
 import { ProductCard } from "@/components/product/ProductCard";
 import { HeroCarousel } from "@/components/ui/hero-carousel";
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export const dynamic = "force-dynamic";
 
@@ -18,32 +18,11 @@ export default async function Home({
   const resolvedParams = await searchParams;
   const activeTab = resolvedParams?.tab || "new";
 
-  let productsQuery: any = { take: 4 };
-
-  switch (activeTab) {
-    case "best-sellers":
-      productsQuery.orderBy = { price: "asc" };
-      break;
-    case "sacred":
-      productsQuery.where = { category: { slug: "puja-essentials" } };
-      break;
-    case "festive":
-      productsQuery.where = { category: { slug: "gifts" } };
-      break;
-    case "new":
-    default:
-      productsQuery.orderBy = { createdAt: "desc" };
-      break;
-  }
-
-  let featuredProducts: any[] = [];
+  let featuredProducts: Awaited<ReturnType<typeof fetchProducts>> = [];
   try {
-    featuredProducts = await prisma.product.findMany({
-      ...productsQuery,
-      include: { category: true },
-    });
+    featuredProducts = await fetchProducts({ tab: activeTab, take: 4 });
   } catch (error) {
-    console.warn("Could not fetch featured products from database, fallback to empty list:", error);
+    console.warn("Could not fetch featured products from backend:", error);
   }
 
   return (

@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/db";
+import { fetchCategories, fetchProducts } from "@/lib/backend-api";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ShopFilters } from "@/components/shop/ShopFilters";
 import { Suspense } from "react";
@@ -25,29 +25,23 @@ export default async function ShopPage(props: {
   const currentPrice = searchParams?.price;
   const currentSort = searchParams?.sort || "newest";
 
-  const whereClause: Record<string, unknown> = {};
-  if (currentCategory) {
-    whereClause.category = { slug: currentCategory };
+  let products: Awaited<ReturnType<typeof fetchProducts>> = [];
+  let categories: Awaited<ReturnType<typeof fetchCategories>> = [];
+
+  try {
+    [products, categories] = await Promise.all([
+      fetchProducts({
+        category: currentCategory,
+        price: currentPrice,
+        sort: currentSort,
+      }),
+      fetchCategories(),
+    ]);
+  } catch (error) {
+    console.warn("Could not load shop data from backend:", error);
   }
-  if (currentPrice === "under-1000") whereClause.price = { lt: 1000 };
-  else if (currentPrice === "1000-5000") whereClause.price = { gte: 1000, lte: 5000 };
-  else if (currentPrice === "5000-10000") whereClause.price = { gte: 5000, lte: 10000 };
-  else if (currentPrice === "over-10000") whereClause.price = { gt: 10000 };
 
-  let orderByClause: Record<string, string> = { createdAt: "desc" };
-  if (currentSort === "price-asc") orderByClause = { price: "asc" };
-  else if (currentSort === "price-desc") orderByClause = { price: "desc" };
-
-  const [products, categories] = await Promise.all([
-    prisma.product.findMany({
-      where: whereClause as any,
-      orderBy: orderByClause,
-      include: { category: true },
-    }),
-    prisma.category.findMany({ orderBy: { name: "asc" } }),
-  ]);
-
-  const activeCategoryName = categories.find((c: { slug: string | undefined; }) => c.slug === currentCategory)?.name;
+  const activeCategoryName = categories.find((c) => c.slug === currentCategory)?.name;
 
   return (
     <div className="bg-ivory min-h-screen">

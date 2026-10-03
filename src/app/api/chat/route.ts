@@ -1,6 +1,6 @@
 import { chatRequestSchema } from "@/lib/validations/chat";
-import { generateChatReply } from "@/services/chatbot.service";
 import { checkRateLimit, getClientIp } from "@/lib/ai/rate-limit";
+import { apiEndpoint } from "@/lib/api";
 
 export const maxDuration = 30;
 
@@ -8,6 +8,10 @@ function jsonError(status: number, error: string, extra?: Record<string, string>
   return Response.json({ success: false, error, ...extra }, { status });
 }
 
+/**
+ * Proxies chat to Express backend → Groq.
+ * Architecture: Next.js → Backend → Groq
+ */
 export async function POST(request: Request) {
   const ip = getClientIp(request);
   const limit = checkRateLimit(ip);
@@ -35,19 +39,28 @@ export async function POST(request: Request) {
   }
 
   try {
-    const result = await generateChatReply({
-      message: parsed.data.message,
-      history: parsed.data.history,
-      locale: parsed.data.locale,
+    const response = await fetch(apiEndpoint("/api/chatbot/message"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: parsed.data.message }),
+      cache: "no-store",
     });
-    return Response.json(result);
-  } catch (error) {
-    const code = error instanceof Error ? error.message : "unknown";
-    if (code === "GROQ_API_KEY is not configured") {
-      console.error("[chatbot] missing GROQ_API_KEY");
-    } else {
-      console.error("[chatbot] failure", { ts: new Date().toISOString(), ok: false });
+
+    const data = await response.json().catch(() => null);
+
+    if (!response.ok || !data?.success || typeof data.reply !== "string") {
+      return jsonError(
+        response.status === 429 ? 429 : 500,
+        data?.message || "Unable to generate a response right now."
+      );
     }
+
+    return Response.json({
+      success: true,
+      reply: data.reply,
+    });
+  } catch (error) {
+    console.error("[chatbot] backend proxy failure", error);
     return jsonError(500, "Unable to generate a response right now.");
   }
 }

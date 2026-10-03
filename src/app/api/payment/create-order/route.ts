@@ -1,10 +1,19 @@
 import Razorpay from "razorpay";
 import { NextRequest, NextResponse } from "next/server";
 
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID!,
-  key_secret: process.env.RAZORPAY_KEY_SECRET!,
-});
+function getRazorpay() {
+  const key_id =
+    process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+  const key_secret = process.env.RAZORPAY_KEY_SECRET;
+
+  if (!key_id || !key_secret) {
+    throw new Error(
+      "Missing Razorpay credentials. Set RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET."
+    );
+  }
+
+  return new Razorpay({ key_id, key_secret });
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,6 +23,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid amount" }, { status: 400 });
     }
 
+    const razorpay = getRazorpay();
     const order = await razorpay.orders.create({
       amount: Math.round(amount), // amount in paise
       currency,
