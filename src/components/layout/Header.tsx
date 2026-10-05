@@ -190,11 +190,11 @@ export function Header() {
                 <Menu className="w-6 h-6" strokeWidth={1.5} />
               </button>
 
-              <Link href="/" className="flex items-center gap-2 group">
+              <Link href="/" className="flex items-center gap-2 group shrink-0">
                 <img
-                  src={isHeaderLight ? "/images/srilns_logo_dark.png?v=2" : "/images/srilns_logo_white.png?v=2"}
-                  alt="SriLNS Bakti Seva"
-                  className="h-10 sm:h-12 lg:h-14 w-auto object-contain transition-all duration-300 group-hover:scale-105"
+                  src="/images/srilns_logo.png?v=3"
+                  alt="Sri Lakshmi Narasimha Swamy Charitable Trust"
+                  className="h-10 sm:h-12 lg:h-14 w-10 sm:w-12 lg:w-14 object-contain transition-all duration-300 group-hover:scale-105"
                 />
               </Link>
             </div>

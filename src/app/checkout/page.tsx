@@ -63,7 +63,7 @@ export default function CheckoutPage() {
         currency: orderData.currency,
         name: "Bakti Seva",
         description: "Secure Payment for Divine Items",
-        image: "/images/srilns_logo_dark.png",
+        image: "/images/srilns_logo.png?v=3",
         order_id: orderData.id,
         handler: async function (response: any) {
           clearCart();

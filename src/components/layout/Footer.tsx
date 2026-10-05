@@ -144,9 +144,9 @@ export function Footer() {
           <div className="lg:col-span-4 lg:pr-10">
             <Link href="/" className="inline-block mb-6 group">
               <img
-                src="/images/srilns_logo_white.png?v=2"
-                alt="SriLNS Bakti Seva"
-                className="h-12 sm:h-16 w-auto object-contain transition-transform group-hover:scale-105"
+                src="/images/srilns_logo.png?v=3"
+                alt="Sri Lakshmi Narasimha Swamy Charitable Trust"
+                className="h-14 sm:h-16 w-14 sm:w-16 object-contain transition-transform group-hover:scale-105"
               />
             </Link>
             <p className="text-[#FFFDF7]/75 leading-relaxed font-light text-xs sm:text-sm mb-8 max-w-sm">

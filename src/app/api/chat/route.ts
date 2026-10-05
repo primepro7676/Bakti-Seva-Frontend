@@ -39,7 +39,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const response = await fetch(apiEndpoint("/api/chatbot/message"), {
+    const response = await fetch(apiEndpoint("/api/chat"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message: parsed.data.message }),

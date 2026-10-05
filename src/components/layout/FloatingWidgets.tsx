@@ -171,7 +171,8 @@ export function FloatingWidgets() {
     const timeout = setTimeout(() => controller.abort(), 28000);
 
     try {
-      const response = await fetch(apiEndpoint("/api/chatbot/message"), {
+      const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/chat`;
+      const response = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         signal: controller.signal,
@@ -220,6 +221,7 @@ export function FloatingWidgets() {
         },
       ]);
     } catch (error) {
+      console.error("Chat API error:", error);
       const timedOut = error instanceof DOMException && error.name === "AbortError";
       setMessages((prev) => [
         ...prev,

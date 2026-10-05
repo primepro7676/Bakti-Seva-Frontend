@@ -57,9 +57,9 @@ export function MobileMenu({ isOpen, onClose, navItems }: MobileMenuProps) {
         <div className="p-4 border-b border-white/10 flex items-center justify-between">
           <Link href="/" onClick={onClose}>
             <img
-              src="/images/srilns_logo_white.png?v=2"
-              alt="SriLNS Bakti Seva"
-              className="h-10 w-auto object-contain"
+              src="/images/srilns_logo.png?v=3"
+              alt="Sri Lakshmi Narasimha Swamy Charitable Trust"
+              className="h-10 w-10 object-contain"
             />
           </Link>
           <button onClick={onClose} className="p-2 text-ivory hover:text-gold transition-colors">

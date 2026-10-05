@@ -57,7 +57,7 @@ export default function CartPage() {
         name: "Bakti Seva",
         description: `Payment for ${items.length} item(s)`,
         order_id: order.id,
-        image: "/images/srilns_logo_dark.png",
+        image: "/images/srilns_logo.png?v=3",
         theme: { color: "#C9913D" },
         handler: async function (response: any) {
           // Verify payment signature

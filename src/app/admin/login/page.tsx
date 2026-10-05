@@ -34,8 +34,8 @@ export default function AdminLogin() {
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-accent via-primary to-accent"></div>
           <Link href="/" className="inline-block mb-6">
             <img
-              src="/images/srilns_logo_white.png"
-              alt="SriLNS Bakti Seva"
+              src="/images/srilns_logo.png?v=3"
+              alt="Sri Lakshmi Narasimha Swamy Charitable Trust"
               className="h-12 w-auto object-contain mx-auto"
             />
           </Link>
