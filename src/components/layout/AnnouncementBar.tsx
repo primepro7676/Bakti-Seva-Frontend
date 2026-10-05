@@ -14,7 +14,7 @@ export function AnnouncementBar() {
   const text = announcements.join(" ✦ ");
 
   return (
-    <div className="w-full bg-[#641E2E] text-[#FFFDF7] text-xs font-medium h-9 flex items-center overflow-hidden whitespace-nowrap border-b border-[#D6B46A]/20">
+    <div className="w-full bg-burgundy text-ivory text-xs font-medium h-9 flex items-center overflow-hidden whitespace-nowrap border-b border-champagne/20" style={{ backgroundColor: "#641E2E", color: "#FFFDF7" }}>
       <motion.div
         className="flex min-w-max shrink-0"
         animate={{ x: ["0%", "-50%"] }}
@@ -24,13 +24,13 @@ export function AnnouncementBar() {
           duration: 35,
         }}
       >
-        <span className="px-8 flex items-center gap-4 text-[#FFFDF7] text-[11px] uppercase tracking-[0.18em]">
+        <span className="px-8 flex items-center gap-4 text-ivory text-[11px] uppercase tracking-[0.18em]">
           {text}
         </span>
-        <span className="px-8 flex items-center gap-4 text-[#FFFDF7] text-[11px] uppercase tracking-[0.18em]">
+        <span className="px-8 flex items-center gap-4 text-ivory text-[11px] uppercase tracking-[0.18em]">
           {text}
         </span>
-        <span className="px-8 flex items-center gap-4 text-[#FFFDF7] text-[11px] uppercase tracking-[0.18em]">
+        <span className="px-8 flex items-center gap-4 text-ivory text-[11px] uppercase tracking-[0.18em]">
           {text}
         </span>
       </motion.div>

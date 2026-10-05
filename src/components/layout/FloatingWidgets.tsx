@@ -175,7 +175,7 @@ export function FloatingWidgets() {
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        signal: controller.signal,
+        //signal: controller.signal,
         body: JSON.stringify({
           message: trimmed,
         }),
@@ -279,11 +279,10 @@ export function FloatingWidgets() {
       <div className="fixed bottom-4 right-3 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end max-w-[calc(100vw-1.5rem)]">
         {isClient && (
           <div
-            className={`bg-[#FFFDF7] w-[min(380px,calc(100vw-1.5rem))] rounded-3xl shadow-2xl overflow-hidden transition-all duration-300 transform origin-bottom-right mb-4 border border-[#E8D5B0] flex flex-col h-[min(480px,70vh)] ${
-              isChatOpen
-                ? "scale-100 opacity-100"
-                : "scale-0 opacity-0 pointer-events-none absolute bottom-10"
-            }`}
+            className={`bg-[#FFFDF7] w-[min(380px,calc(100vw-1.5rem))] rounded-3xl shadow-2xl overflow-hidden transition-all duration-300 transform origin-bottom-right mb-4 border border-[#E8D5B0] flex flex-col h-[min(480px,70vh)] ${isChatOpen
+              ? "scale-100 opacity-100"
+              : "scale-0 opacity-0 pointer-events-none absolute bottom-10"
+              }`}
             role="dialog"
             aria-label="Bakti AI Guide chat"
           >
@@ -332,11 +331,10 @@ export function FloatingWidgets() {
               {messages.map((m) => (
                 <div
                   key={m.id}
-                  className={`p-3.5 rounded-2xl shadow-sm text-xs md:text-sm border ${
-                    m.role === "user"
-                      ? "bg-[#F8F1E5] text-[#49332D] border-[#D8B76E] rounded-tr-none self-end max-w-[85%]"
-                      : "bg-[#FFFDF7] text-[#49332D] border-[#E8D5B0] rounded-tl-none self-start max-w-[90%]"
-                  }`}
+                  className={`p-3.5 rounded-2xl shadow-sm text-xs md:text-sm border ${m.role === "user"
+                    ? "bg-[#F8F1E5] text-[#49332D] border-[#D8B76E] rounded-tr-none self-end max-w-[85%]"
+                    : "bg-[#FFFDF7] text-[#49332D] border-[#E8D5B0] rounded-tl-none self-start max-w-[90%]"
+                    }`}
                 >
                   {m.role !== "user" && (
                     <p className="font-semibold text-[11px] text-accent mb-1">Bakti AI Guide</p>

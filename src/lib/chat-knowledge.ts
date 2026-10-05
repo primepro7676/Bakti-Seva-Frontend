@@ -212,10 +212,10 @@ const SITE_FACTS = `
 === ABOUT BAKTI SEVA ===
 - Platform: Bakti Seva — authentic puja essentials, online Vedic poojas, homas, community seva, and temple events.
 - Temple / Matth: Sri Lakshminarasimhaswami Matth
-- Address: Devarathota, Ragimuddanahalli, Tumkur, Karnataka – 572 101, India
+- Address: 86, 2nd Main, New Thippasandra, HAL 3rd Stage, Indiranagar, Bangalore, Karnataka – 560072, India
 - Temple timings: Morning 6:00 AM – 12:00 PM | Evening 4:00 PM – 8:30 PM (open all 7 days)
 - Support hours: Mon–Sat, 9:00 AM – 6:00 PM IST
-- Phone: +91 98765 43210 | +91 80 2345 6789
+- Phone: +91 99454 40798
 - WhatsApp: https://wa.me/919876543210
 - Email: support@baktiseva.com | info@baktiseva.com (reply within 24 hours)
 - Events email: events@srilns.org | Vidyadaan: vidyadaan@srilns.org
@@ -496,7 +496,7 @@ I can assist with:
 1. **Online Pooja, Homa & Seva** → [/seva](/seva)
 2. **Shop (essentials, idols, books, apparel, gifts)** → [/shop](/shop)
 3. **Events at the Matth** → [/events](/events)
-4. **Temple location & timings** (Devarathota, Tumkur) → [/contact](/contact)
+4. **Office location & timings** (Indiranagar, Bangalore) → [/contact](/contact)
 5. **Shipping, returns, FAQ** → [/shipping](/shipping) · [/faq](/faq)
 
 Please ask about a specific pooja, product, event, or policy.`;

@@ -72,7 +72,7 @@ export function Footer() {
   }
 
   return (
-    <footer className="bg-[#4E1824] text-[#FFFDF7]">
+    <footer className="bg-wine text-ivory" style={{ backgroundColor: "#4E1824", color: "#FFFDF7" }}>
       {/* Newsletter — light premium editorial */}
       <div
         className="relative border-b border-[#EEE3D0]/60 overflow-hidden"
@@ -142,27 +142,35 @@ export function Footer() {
       <div className="max-w-[1440px] mx-auto px-4 lg:px-8 py-16 lg:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8">
           <div className="lg:col-span-4 lg:pr-10">
-            <Link href="/" className="inline-block mb-6 group">
+            <Link href="/" className="flex items-center gap-3 mb-6 group">
               <img
                 src="/images/srilns_logo.png?v=3"
                 alt="Sri Lakshmi Narasimha Swamy Charitable Trust"
                 className="h-14 sm:h-16 w-14 sm:w-16 object-contain transition-transform group-hover:scale-105"
               />
+              <div className="flex flex-col justify-center text-ivory">
+                <span className="font-heading text-base sm:text-lg font-bold tracking-wider leading-tight">
+                  Sri Lakshmi Narasimha Swamy
+                </span>
+                <span className="font-heading text-sm sm:text-base font-semibold tracking-wider leading-tight">
+                  Charitable Trust
+                </span>
+              </div>
             </Link>
-            <p className="text-[#FFFDF7]/75 leading-relaxed font-light text-xs sm:text-sm mb-8 max-w-sm">
+            <p className="text-ivory/75 leading-relaxed font-light text-xs sm:text-sm mb-8 max-w-sm">
               A premium Indian spiritual lifestyle brand dedicated to authentic
               rituals, handcrafted sacred artifacts, and fostering deep devotion
               in modern homes.
             </p>
 
-            <div className="flex items-center gap-6 text-xs uppercase tracking-widest font-semibold text-[#D6B46A]">
-              <a href="#" className="hover:text-[#FFFDF7] transition-colors">
+            <div className="flex items-center gap-6 text-xs uppercase tracking-widest font-semibold text-champagne">
+              <a href="#" className="hover:text-ivory transition-colors">
                 Instagram
               </a>
-              <a href="#" className="hover:text-[#FFFDF7] transition-colors">
+              <a href="#" className="hover:text-ivory transition-colors">
                 YouTube
               </a>
-              <a href="#" className="hover:text-[#FFFDF7] transition-colors">
+              <a href="#" className="hover:text-ivory transition-colors">
                 Facebook
               </a>
             </div>
@@ -327,7 +335,7 @@ export function Footer() {
         <div className="mt-12 pt-8 border-t border-[#FFFDF7]/10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#FFFDF7]/60 font-light tracking-wide">
           <p>
             &copy; {new Date().getFullYear()} Bakti Seva. All Rights Reserved.
-            Crafted with Devotion in India.
+            Crafted with Devotion in India. | <Link href="/admin/login" className="hover:text-[#D6B46A] transition-colors ml-1">Admin Login</Link>
           </p>
           <div className="flex items-center gap-6 text-[11px] uppercase tracking-wider text-[#D6B46A]">
             <span>Razorpay Secure</span>

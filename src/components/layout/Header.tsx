@@ -161,11 +161,11 @@ export function Header() {
   // Header background & text colors per Rule #7
   const isHeaderLight = isScrolled || !isHomepage;
   const headerBgClass = isHeaderLight
-    ? "bg-[#FFFDF7]/95 backdrop-blur-md border-b border-[#641E2E]/10 text-[#641E2E] shadow-sm"
-    : "bg-gradient-to-b from-[#4E1824]/80 via-[#641E2E]/40 to-transparent backdrop-blur-sm text-[#FFFDF7]";
+    ? "bg-ivory/95 backdrop-blur-md border-b border-burgundy/10 text-burgundy shadow-sm"
+    : "bg-gradient-to-b from-wine/80 via-burgundy/40 to-transparent backdrop-blur-sm text-ivory";
 
-  const textColorClass = isHeaderLight ? "text-[#641E2E]" : "text-[#FFFDF7]";
-  const navHoverClass = isHeaderLight ? "hover:text-[#C59A4B]" : "hover:text-[#D6B46A]";
+  const textColorClass = isHeaderLight ? "text-burgundy" : "text-ivory";
+  const navHoverClass = isHeaderLight ? "hover:text-gold" : "hover:text-champagne";
 
   return (
     <>
@@ -196,6 +196,14 @@ export function Header() {
                   alt="Sri Lakshmi Narasimha Swamy Charitable Trust"
                   className="h-10 sm:h-12 lg:h-14 w-10 sm:w-12 lg:w-14 object-contain transition-all duration-300 group-hover:scale-105"
                 />
+                <div className={`flex flex-col justify-center hidden sm:flex ${textColorClass}`}>
+                  <span className="font-heading text-sm lg:text-base font-bold tracking-wider leading-tight">
+                    Sri Lakshmi Narasimha Swamy
+                  </span>
+                  <span className="font-heading text-xs lg:text-sm font-semibold tracking-wider leading-tight">
+                    Charitable Trust
+                  </span>
+                </div>
               </Link>
             </div>
 

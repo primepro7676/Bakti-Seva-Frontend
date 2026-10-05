@@ -42,9 +42,9 @@ const CONTACT_INFO = [
     icon: MapPin,
     title: "Our Sacred Location",
     lines: [
-      "Sri Lakshminarasimhaswami Matth",
-      "Devarathota, Ragimuddanahalli",
-      "Tumkur, Karnataka – 572 101",
+      "86, 2nd Main, New Thippasandra",
+      "HAL 3rd Stage, Indiranagar",
+      "Bangalore, Karnataka – 560072",
     ],
     color: "text-primary",
     bg: "bg-primary/10",
@@ -53,7 +53,7 @@ const CONTACT_INFO = [
   {
     icon: Phone,
     title: "Call Us",
-    lines: ["+91 98765 43210", "+91 80 2345 6789"],
+    lines: ["+91 99454 40798"],
     sub: "Mon – Sat, 9:00 AM – 6:00 PM IST",
     color: "text-emerald-600",
     bg: "bg-emerald-50",
@@ -335,10 +335,10 @@ export default function ContactPage() {
               <div className="bg-near-black px-6 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-accent" />
-                  <span className="text-ivory text-sm font-semibold">Sri Lakshminarasimhaswami Matth</span>
+                  <span className="text-ivory text-sm font-semibold">Bakti Seva Office</span>
                 </div>
                 <a
-                  href="https://maps.google.com/?q=Devarathota,Ragimuddanahalli,Tumkur,Karnataka"
+                  href="https://maps.google.com/?q=86,+2nd+Main,+New+Thippasandra,+HAL+3rd+Stage,+Indiranagar,+Bangalore,+Karnataka+560072"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 text-accent text-xs font-semibold hover:text-white transition-colors"
@@ -347,7 +347,7 @@ export default function ContactPage() {
                 </a>
               </div>
               <iframe
-                src="https://maps.google.com/maps?q=Devarathota,+Ragimuddanahalli,+Tumkur,+Karnataka&t=&z=14&ie=UTF8&iwloc=&output=embed"
+                src="https://maps.google.com/maps?q=86,+2nd+Main,+New+Thippasandra,+HAL+3rd+Stage,+Indiranagar,+Bangalore,+Karnataka+560072&t=&z=14&ie=UTF8&iwloc=&output=embed"
                 width="100%"
                 height="380"
                 style={{ border: 0, display: "block" }}

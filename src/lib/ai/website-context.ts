@@ -36,9 +36,9 @@ export const policyFacts = {
   faq: `Products are sourced from traditional artisans. Standard shipping 5–7 days; express 2–3 days. Bulk/temple discounts: contact support. Source: /faq`,
 };
 
-export const contactFacts = `Sri Lakshminarasimhaswami Matth, Devarathota, Ragimuddanahalli, Tumkur, Karnataka – 572 101, India.
+export const contactFacts = `86, 2nd Main, New Thippasandra, HAL 3rd Stage, Indiranagar, Bangalore, Karnataka – 560072, India.
 Temple timings: Morning 6:00 AM – 12:00 PM; Evening 4:00 PM – 8:30 PM; open all 7 days.
-Phone: +91 98765 43210 and +91 80 2345 6789 (Mon–Sat, 9:00 AM – 6:00 PM IST).
+Phone: +91 99454 40798 (Mon–Sat, 9:00 AM – 6:00 PM IST).
 Email: support@baktiseva.com, info@baktiseva.com.
 WhatsApp: https://wa.me/919876543210
 Contact form and map: /contact`;

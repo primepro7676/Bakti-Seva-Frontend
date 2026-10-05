@@ -34,7 +34,7 @@ export default function AccountPage() {
         <h1 className="font-heading text-4xl md:text-5xl font-bold text-charcoal mb-12">My Account</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-          
+
           {/* Sidebar Menu */}
           <div className="lg:col-span-3">
             <div className="bg-white border border-near-black/10 p-6">
@@ -47,7 +47,7 @@ export default function AccountPage() {
                   <p className="text-xs text-near-black/50">Member since {user.joined}</p>
                 </div>
               </div>
-              
+
               <nav className="space-y-2">
                 <Link href="/account" className="flex items-center gap-3 px-4 py-3 bg-sand/50 text-accent font-semibold text-sm transition-colors border-l-2 border-accent">
                   <User className="w-4 h-4" /> Profile
@@ -73,7 +73,7 @@ export default function AccountPage() {
 
           {/* Main Content */}
           <div className="lg:col-span-9 space-y-10">
-            
+
             {/* Account Details */}
             <div className="bg-white border border-near-black/10 p-8">
               <h2 className="font-heading text-2xl font-bold text-charcoal mb-6 pb-4 border-b border-near-black/10">Personal Information</h2>
@@ -88,7 +88,7 @@ export default function AccountPage() {
                 </div>
                 <div>
                   <p className="text-xs font-semibold tracking-widest uppercase text-near-black/50 mb-1">Phone Number</p>
-                  <p className="text-charcoal font-medium">+91 98765 43210</p>
+                  <p className="text-charcoal font-medium">+91 99454 40798</p>
                 </div>
               </div>
               <div className="mt-8">
@@ -116,9 +116,8 @@ export default function AccountPage() {
                         <p className="text-sm text-near-black/60">Placed on {order.date}</p>
                       </div>
                       <div className="flex flex-col sm:items-end gap-2">
-                        <span className={`inline-block px-3 py-1 text-xs font-semibold uppercase tracking-wider ${
-                          order.status === 'Delivered' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
-                        }`}>
+                        <span className={`inline-block px-3 py-1 text-xs font-semibold uppercase tracking-wider ${order.status === 'Delivered' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
+                          }`}>
                           {order.status}
                         </span>
                         <p className="font-medium text-charcoal">{formatCurrency(order.total)} <span className="text-xs text-near-black/50 font-light ml-1">({order.items} items)</span></p>
